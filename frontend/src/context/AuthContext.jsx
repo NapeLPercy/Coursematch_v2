@@ -14,7 +14,7 @@ export function UserProvider({ children }) {
   // Save user to localStorage when changed
   useEffect(() => {
     if (user) sessionStorage.setItem("user", JSON.stringify(user));
-    else sessionStorage.removeItem("user");
+    else sessionStorage.clear();
   }, [user]);
 
   // Helper login & logout functions

@@ -29,13 +29,10 @@ export default function Login() {
       const user = response.data.user;
       const student = user.student;
 
-      sessionStorage.setItem("student", JSON.stringify(student));
+      
       if(student){
-        sessionStorage.setItem("submittedSubjects",true);
-      }else{
-        sessionStorage.setItem("submittedSubjects",false);
+        sessionStorage.setItem("student", JSON.stringify(student));
       }
-     // sessionStorage.setItem("user", JSON.stringify(user));
 
       console.log("logging user here", user, student);
     

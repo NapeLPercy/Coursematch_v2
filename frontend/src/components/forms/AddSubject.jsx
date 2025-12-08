@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../../styles/AddSubjects.css";
+import { useSubjects } from "../../context/SubjectContext";
 
 export default function AddSubjects() {
+  const { addSubjects, setSelectedApsSubjects } = useSubjects();
+
   // Initial subjects list (can come from props or API)
   const subjectsList = [
     "Mathematics",
@@ -68,6 +71,11 @@ export default function AddSubjects() {
     });
     console.log("Subjects to save:", subjects);
 
+    subjects.forEach((subject) => {
+      subject.endorsementSubject = 0;
+    });
+    console.log("Subjects before adding", subjects);
+
     // TODO: Send subjects to backend via axios/fetch
     const userId = JSON.parse(sessionStorage.getItem("user"))?.id;
     try {
@@ -81,6 +89,10 @@ export default function AddSubjects() {
 
       console.log("Server response:", response.data);
       alert("Subjects submitted successfully!");
+
+      addSubjects(subjects); //add all subjects to sessionData
+      setSelectedApsSubjects(response.data.endorsementSubjects); //add APS SELECTED subjects to session
+
       setSubjects([{ name: "", mark: "" }]); // reset
     } catch (err) {
       console.error(

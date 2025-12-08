@@ -8,40 +8,42 @@ export default function ViewSubjectsPage() {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const USER_KEY = "student";
-
   //Load the logged-in user from session
   useEffect(() => {
-    const userData = sessionStorage.getItem(USER_KEY);
+    const stored = sessionStorage.getItem("student");
+    if (!stored) return;
 
-    if (userData) {
-      const student = JSON.parse(userData);
-      setStudentId(student.studentId);
+    try {
+      const student = JSON.parse(stored);
+      if (student && student.studentId) {
+        setStudentId(student.studentId);
+      }
+    } catch (e) {
+      console.error("Failed to parse student from sessionStorage:", e);
     }
   }, []);
 
   //Fetch subjects once we have the studentId
   useEffect(() => {
     if (!studentId) return;
-
-    const fetchSubjects = async () => {
-      try {
-        console.log("About to view pages");
-        const res = await axios.get(
-          `http://localhost:5000/api/subjects/${studentId}`
-        );
-        
-        console.log("This is the data",res.data);
-        setSubjects(res.data);
-      } catch (err) {
-        console.error("Error loading subjects:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchSubjects();
   }, [studentId]);
+
+  const fetchSubjects = async () => {
+    try {
+      console.log("About to view pages");
+      const res = await axios.get(
+        `http://localhost:5000/api/subjects/${studentId}`
+      );
+
+      console.log("This is the data", res.data);
+      setSubjects(res.data);
+    } catch (err) {
+      console.error("Error loading subjects:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) return <p>Loading student subjects...</p>;
 
