@@ -3,17 +3,22 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/Dashboard.css";
 
+import { useSubjects } from "../../context/SubjectContext";
+
 export default function Dashboard({ user }) {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { addSubjects } = useSubjects();
 
   // Load studentId from sessionStorage
   const studentId = (() => {
     try {
       const stored = sessionStorage.getItem("student");
+      console.log("This is the student id in dashboard", stored);
       if (!stored) return null;
       const student = JSON.parse(stored);
+
       return student.studentId;
     } catch (e) {
       console.error("Invalid student data in sessionStorage:", e);
@@ -22,32 +27,35 @@ export default function Dashboard({ user }) {
   })();
 
   // Fetch subjects
+  const fetchSubjects = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/subjects/${studentId}`
+      );
+
+      console.log("These are the subjects", res.data);
+
+      if (res.data.success) {
+        // Save to local component state for UI
+        setSubjects(res.data.subjects);
+
+        addSubjects(res.data.subjects);
+      }
+    } catch (err) {
+      console.error("Error loading subjects:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (!studentId) {
       setLoading(false);
       return;
     }
 
-    const fetchSubjects = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/api/subjects/${studentId}`
-        );
-
-        console.log("These are the subjects",res.data);
-        
-        if(res.data.success){
-          setSubjects(res.data || []);
-        }
-      } catch (err) {
-        console.error("Error loading subjects:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchSubjects();
-  }, [studentId]);
+  }, []);
 
   if (loading) return <p>Loading dashboard...</p>;
 
@@ -63,9 +71,7 @@ export default function Dashboard({ user }) {
       {subjects.length === 0 ? (
         <div className="no-subjects">
           <p>You have not submitted any subjects yet.</p>
-          <button onClick={() => navigate("/add-subject")}>
-            Add Subjects
-          </button>
+          <button onClick={() => navigate("/add-subject")}>Add Subjects</button>
         </div>
       ) : (
         <div className="subject-stats">
@@ -75,8 +81,12 @@ export default function Dashboard({ user }) {
           <div className="subject-list">
             {subjects.map((s) => (
               <div key={s.subject_id} className="subject-item">
-                <span>{s.Name} (Mark: {s.Mark})</span>
-                <button onClick={() => navigate(`/subjects/edit/${s.subject_id}`)}>
+                <span>
+                  {s.Name} (Mark: {s.Mark})
+                </span>
+                <button
+                  onClick={() => navigate(`/subjects/edit/${s.subject_id}`)}
+                >
                   Edit
                 </button>
               </div>
@@ -87,4 +97,3 @@ export default function Dashboard({ user }) {
     </div>
   );
 }
-

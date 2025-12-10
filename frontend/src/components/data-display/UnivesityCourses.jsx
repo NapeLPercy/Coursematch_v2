@@ -1,18 +1,22 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { CourseContext } from "../../context/CourseContext";
 import TutAPS from "../../Utils/TUT/TutAPS";
+import CourseManager from "../../Utils/CourseManager";
 
+//context
+import { CourseContext } from "../../context/CourseContext";
 import { useSubjects } from "../../context/SubjectContext";
 
 export default function UniversityCourses() {
   let { courseSlug } = useParams();
   courseSlug = courseSlug.toUpperCase();
 
+  //context
   const { qualifications, updateQualifications, clearQualifications } =
     useContext(CourseContext);
-  const { subjects } = useSubjects();
+
+  const { getSubjects, addSubjects } = useSubjects();
 
   const [courses, setCourses] = useState(qualifications);
   const [qualifiedCourses, setQualifiedCourses] = useState([]);
@@ -49,25 +53,43 @@ export default function UniversityCourses() {
     setComputingQualified(true);
     // 1 compute the aps for the specific university using the slug
 
-    const apsCalc = new TutAPS(subjects);
+    const apsCalc = new TutAPS(getSubjects());
     const studentAPS = apsCalc.computeAPS();
-    console.log("THis is the aps === ",studentAPS);
-    console.log("THis is the subjects === ",subjects);
 
-    // TODO: Replace this with your actual computation logic
-    // Example: Filter courses based on user's grades/prerequisites
-    // This is where you'd check if user meets prerequisite requirements
+    console.log("This is tut APS", studentAPS);
 
+    const studentEndorsement = JSON.parse(
+      sessionStorage.getItem("student")
+    ).endorsement;
+
+    const courseManager = new CourseManager();
+    console.log("This is the course manager", courseManager);
+    //qualified by aps courses
+    const qualifiedByAps = courseManager.filterCoursesByAps(
+      courses,
+      studentAPS
+    );
+
+    console.log("This is the courses after aps", qualifiedByAps);
+    //qualified by endorsement courses
+    const qualifiedByEndorsement = courseManager.filterCoursesByEndorsement(
+      qualifiedByAps,
+      studentEndorsement
+    );
+
+    console.log(
+      "This is the courses after endorsement",
+      qualifiedByEndorsement
+    );
+    //qualified by pre-requiste subjects(names & marks)
+    const qualifiedCourse = courseManager.filterCoursesByPrerequisites(
+      getSubjects(),
+      qualifiedByEndorsement
+    );
+
+    console.log("This is the courses after prerequiste", qualifiedCourse);
     setTimeout(() => {
-      // Placeholder computation - replace with actual logic
-      const qualified = courses.filter((course) => {
-        // Example logic: Check if user meets minimum APS requirement
-        // You'll need to get user's actual APS/grades from context or props
-        const userAPS = 30; // Replace with actual user data
-        return course.minimum_required <= userAPS;
-      });
-
-      setQualifiedCourses(qualified);
+      setQualifiedCourses(qualifiedCourse);
       setComputingQualified(false);
     }, 500);
   };
@@ -110,7 +132,7 @@ export default function UniversityCourses() {
               <strong>Duration:</strong> {course.minimum_duration} years
             </p>
             <p style={{ margin: "5px 0", fontSize: "14px", color: "#666" }}>
-              <strong>Minimum APS:</strong> {course.minimum_required}
+              <strong>Minimum APS:</strong> {course.minimum_aps}
             </p>
             {course.prereqs && course.prereqs.length > 0 && (
               <div style={{ marginTop: "10px" }}>
@@ -120,7 +142,7 @@ export default function UniversityCourses() {
                 <ul style={{ marginTop: "5px", paddingLeft: "20px" }}>
                   {course.prereqs.map((prereq, idx) => (
                     <li key={idx} style={{ fontSize: "13px", color: "#555" }}>
-                      {prereq.subject}: {prereq.min_mark}% minimum
+                      {prereq.subject_name}: {prereq.min_mark}% minimum
                     </li>
                   ))}
                 </ul>

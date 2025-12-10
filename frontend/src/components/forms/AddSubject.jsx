@@ -4,23 +4,54 @@ import "../../styles/AddSubjects.css";
 import { useSubjects } from "../../context/SubjectContext";
 
 export default function AddSubjects() {
-  const { addSubjects, setSelectedApsSubjects } = useSubjects();
+  const { addSubjects} = useSubjects();
 
   // Initial subjects list (can come from props or API)
-  const subjectsList = [
-    "Mathematics",
-    "Mathematical Literacy",
-    "English HL",
-    "English FAL",
-    "Life Orientation",
-    "Physical Science",
-    "Life Science",
-    "Accounting",
-    "Business Studies",
-    "Computer Applications Technology",
-    "History",
-    "Geography",
-  ];
+const subjectsList = [
+  "Accounting",
+  "Afrikaans FAL",
+   "Afrikaans HL",
+  "Agricultural Management Practices",
+  "Agricultural Sciences",
+  "Agricultural Technology",
+  "Business Studies",
+  "Civil Technology",
+  "Computer Applications Technology",
+  "Consumer Studies",
+  "Dance Studies",
+  "Design",
+  "Dramatic Arts",
+  "Economics",
+  "Electrical Technology",
+  "Engineering Graphics & Design",
+  "English FAL",
+  "English HL",
+  "Geography",
+  "History",
+  "Hospitality Studies",
+  "Information Technology",
+  "Life Orientation",
+  "Life Sciences",
+  "Mathematical Literacy",
+  "Mathematics",
+  "Mechanical Technology",
+  "Music",
+  "Ndebele",
+  "Northern Sotho",
+  "Physical Science",
+  "Religion Studies",
+  "Southern Sotho",
+  "Swazi",
+  "Technical Mathematics",
+  "Tourism",
+  "Tsonga",
+  "Tswana",
+  "Venda",
+  "Visual Arts",
+  "Xhosa",
+  "Zulu"
+];
+
 
   // State for the subjects and marks
   const [subjects, setSubjects] = useState([
@@ -91,8 +122,6 @@ export default function AddSubjects() {
       alert("Subjects submitted successfully!");
 
       addSubjects(subjects); //add all subjects to sessionData
-      setSelectedApsSubjects(response.data.endorsementSubjects); //add APS SELECTED subjects to session
-
       setSubjects([{ name: "", mark: "" }]); // reset
     } catch (err) {
       console.error(

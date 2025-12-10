@@ -1,5 +1,5 @@
 // TutAPS.js
-import SubjectLevel from "./SubjectLevel.js";
+import SubjectLevel from "../SubjectLevel";
 
 export default class TutAPS {
   constructor(subjects) {
@@ -8,13 +8,15 @@ export default class TutAPS {
   }
 
   computeAPS() {
+
+    console.log("This is subjects inside aps function ",this.subjects);
     let totalAPS = 0;
 
     this.subjects.forEach((sub) => {
-      const level = new SubjectLevel(sub.mark).getLevel();
+      const level = new SubjectLevel(sub.Mark).getLevel();
 
       // Exclude Life Orientation
-      if (sub.name.toLowerCase() === "life orientation") return;
+      if (sub.Name.toLowerCase() === "life orientation") return;
 
       // Exclude Level 1 subjects
       if (level === 1) return;
