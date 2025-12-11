@@ -23,6 +23,8 @@ import ViewCourses from "./components/data-display/ViewCourses";
 import Footer from "./components/layout/Footer";
 import UniversityCourses from "./components/data-display/UnivesityCourses";
 
+import Chat from "./components/layout/Chat";
+
 function App() {
   return (
     <UserProvider>
@@ -30,6 +32,7 @@ function App() {
          <SubjectProvider>
       <Router>
         <Nav />
+        <Chat/>
         <div className="container mt-4">
           <Routes>
             <Route path="/" element={<Home />} />
