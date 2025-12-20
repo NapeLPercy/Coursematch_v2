@@ -8,9 +8,12 @@ import CourseManager from "../../Utils/CourseManager";
 import { CourseContext } from "../../context/CourseContext";
 import { useSubjects } from "../../context/SubjectContext";
 
+import Recommendations from "./Recommendations";
+
 export default function UniversityCourses() {
   let { courseSlug } = useParams();
   courseSlug = courseSlug.toUpperCase();
+  sessionStorage.setItem("visited-uni", JSON.stringify(courseSlug));
 
   //context
   const { qualifications, updateQualifications, clearQualifications } =
@@ -22,8 +25,24 @@ export default function UniversityCourses() {
   const [qualifiedCourses, setQualifiedCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState("full"); // 'full' or 'qualified'
+
+  const [activeTab, setActiveTab] = useState(() => {
+    const aiTabEnabled = sessionStorage.getItem("ai-tab");
+    try {
+      return JSON.parse(aiTabEnabled) === true ? "recommendations" : "full";
+    } catch {
+      return "full";
+    }
+  });
+
+  // 'full' or 'qualified'
+
   const [computingQualified, setComputingQualified] = useState(false);
+  const [computingRecommendations, setComputingRecommendations] = useState(
+    () => {
+      return activeTab === "recommendations" ? true : false;
+    }
+  );
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -56,21 +75,20 @@ export default function UniversityCourses() {
     const apsCalc = new TutAPS(getSubjects());
     const studentAPS = apsCalc.computeAPS();
 
-    console.log("This is tut APS", studentAPS);
-
+    console.log("THIS IS THE APS",studentAPS);
+    
     const studentEndorsement = JSON.parse(
       sessionStorage.getItem("student")
     ).endorsement;
 
     const courseManager = new CourseManager();
-    console.log("This is the course manager", courseManager);
+
     //qualified by aps courses
     const qualifiedByAps = courseManager.filterCoursesByAps(
       courses,
       studentAPS
     );
 
-    console.log("This is the courses after aps", qualifiedByAps);
     //qualified by endorsement courses
     const qualifiedByEndorsement = courseManager.filterCoursesByEndorsement(
       qualifiedByAps,
@@ -82,15 +100,21 @@ export default function UniversityCourses() {
       qualifiedByEndorsement
     );
     //qualified by pre-requiste subjects(names & marks)
-    const qualifiedCourse = courseManager.filterCoursesByPrerequisites(
+    const qualifiedCourse =
+      qualifiedByEndorsement; /*courseManager.filterCoursesByPrerequisites(
       getSubjects(),
       qualifiedByEndorsement
-    );
+    );*/
 
     console.log("This is the courses after prerequiste", qualifiedCourse);
     setTimeout(() => {
       setQualifiedCourses(qualifiedCourse);
       setComputingQualified(false);
+
+      sessionStorage.setItem(
+        "qualified-courses",
+        JSON.stringify(qualifiedCourse)
+      );
     }, 500);
   };
 
@@ -175,10 +199,12 @@ export default function UniversityCourses() {
         >
           Full Courses
         </button>
+
         <button
           onClick={() => setActiveTab("qualified")}
           style={{
             padding: "10px 20px",
+            marginRight: "5px",
             border: "none",
             borderBottom:
               activeTab === "qualified" ? "3px solid #007bff" : "none",
@@ -190,6 +216,23 @@ export default function UniversityCourses() {
           }}
         >
           Qualified Courses
+        </button>
+
+        <button
+          onClick={() => setActiveTab("recommendations")}
+          style={{
+            padding: "10px 20px",
+            border: "none",
+            borderBottom:
+              activeTab === "recommendations" ? "3px solid #007bff" : "none",
+            backgroundColor:
+              activeTab === "recommendations" ? "#f0f8ff" : "transparent",
+            cursor: "pointer",
+            fontWeight: activeTab === "recommendations" ? "bold" : "normal",
+            fontSize: "16px",
+          }}
+        >
+          AI Recommendations
         </button>
       </div>
 
@@ -212,6 +255,16 @@ export default function UniversityCourses() {
                     qualifiedCourses,
                     "No courses match your qualifications yet. Complete your profile to see qualified courses."
                   )
+                )}
+              </>
+            )}
+
+            {activeTab === "recommendations" && (
+              <>
+                {computingRecommendations ? (
+                  <p>Displaying AI recommended courses...</p>
+                ) : (
+                  <Recommendations qualifiedCourses={qualifiedCourses} />
                 )}
               </>
             )}

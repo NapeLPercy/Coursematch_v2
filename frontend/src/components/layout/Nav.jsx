@@ -77,11 +77,7 @@ export default function Nav() {
                 </Link>
               </li>
 
-              <li className="nav-item mx-2">
-                <Link className="nav-link" to="/add-profile">
-                  Add Profile
-                </Link>
-              </li>
+           
 
               <li className="nav-item mx-2">
                 <button

@@ -1,10 +1,13 @@
 export default class CourseManager {
   constructor() {}
 
+  //filter by aps
   filterCoursesByAps(qualifications, aps) {
     return qualifications.filter(q => q.minimum_aps <= aps);
   }
 
+
+  //filter by diploma,cert or bachelor
   filterCoursesByEndorsement(qualifications, studentEndorsement) {
     return qualifications.filter(q => {
       const min = q.minimum_endorsement;

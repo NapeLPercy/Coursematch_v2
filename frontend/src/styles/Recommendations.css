@@ -1,0 +1,62 @@
+/* Recommendations.css */
+
+.recommendations-container {
+  padding: 1rem;
+  background-color: red;
+}
+
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.course-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.course-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.course-code {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.course-score {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #0077cc;
+  margin-bottom: 0.5rem;
+}
+
+.course-reason {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #444;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .course-card {
+    padding: 0.8rem;
+  }
+
+  .course-title {
+    font-size: 1rem;
+  }
+}

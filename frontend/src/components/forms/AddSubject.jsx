@@ -36,20 +36,20 @@ const subjectsList = [
   "Mathematics",
   "Mechanical Technology",
   "Music",
-  "Ndebele",
-  "Northern Sotho",
+  "Ndebele HL",
+  "Northern Sotho HL",
   "Physical Science",
   "Religion Studies",
-  "Southern Sotho",
-  "Swazi",
+  "Southern Sotho HL",
+  "Swazi HL",
   "Technical Mathematics",
   "Tourism",
-  "Tsonga",
-  "Tswana",
-  "Venda",
+  "Tsonga HL",
+  "Tswana HL",
+  "Venda HL",
   "Visual Arts",
-  "Xhosa",
-  "Zulu"
+  "Xhosa HL",
+  "iSiZulu HL"
 ];
 
 
@@ -165,12 +165,13 @@ const subjectsList = [
         )}
         {subjects.map((subject, index) => (
           <div className="row mb-2 align-items-center" key={index}>
-            <div className="col-md-6">
+            <div className="col-md-6"  style={{marginBottom:"10"}}>
               <select
                 className="form-select"
                 value={subject.name}
                 onChange={(e) => handleChange(index, "name", e.target.value)}
                 required
+               
               >
                 <option value="">Select Subject</option>
                 {subjectsList.map((s, i) => (
@@ -215,7 +216,7 @@ const subjectsList = [
           </div>
         ))}
 
-        <button type="submit" className="btn btn-success mt-3">
+        <button type="submit" className="btn btn-success mt-3" style={{marginTop: "10"}}>
           Add Subjects
         </button>
       </form>

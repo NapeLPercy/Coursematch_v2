@@ -1,13 +1,15 @@
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "../../styles/UserProfileForm.css"; // <-- your custom css
+import { useNavigate } from "react-router-dom";
 
 // Validation schema
 const schema = yup.object().shape({
   fullName: yup
     .string()
-    .required("Full name is required")
+    //.required("Full name is required")
     .min(3, "Name must at leats be 3 characters"),
   age: yup
     .number()
@@ -16,23 +18,23 @@ const schema = yup.object().shape({
     .max(60, "Maximum age is 60"),
   strengths: yup
     .string()
-    .required("Tell us at least one strength")
+    //.required("Tell us at least one strength")
     .min(3, "Strength must at least be 3 characters")
     .max(100, "Strength must be 100 less than characters"),
   weaknesses: yup
     .string()
-    .required("Tell us a weakness")
+    //.required("Tell us a weakness")
     .min(3, "Weakness must at leats be 3 characters")
     .max(100, "Weakness must be 100 less than characters"),
   goals: yup
     .string()
-    .required("This field is required")
+    //.required("This field is required")
     .min(3, "Goals must at leats be 3 characters"),
   aspiration: yup.string(),
   preferredEnvironment: yup.string().required("Select an option"),
   hobbies: yup
     .string()
-    .required("Please list at least one hobby or interest")
+    //.required("Please list at least one hobby or interest")
     .min(3, "Hobbies must be at least 3 characters"),
 
   dreamJob: yup
@@ -43,12 +45,12 @@ const schema = yup.object().shape({
 
   enjoyedSubjects: yup
     .string()
-    .required("This field is required")
+    //.required("This field is required")
     .min(3, "Please name at least one subject"),
 
   dislikedSubjects: yup
     .string()
-    .required("This field is required")
+    //.required("This field is required")
     .min(3, "Please name at least one subject"),
 });
 
@@ -61,12 +63,111 @@ export default function StudentProfileForm() {
     resolver: yupResolver(schema),
   });
 
-  const handleProfileSubmit = (data) => {};
+  //const [recommendedCourses, setRecommendations ] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
-  const onSubmit = (data) => {
-    console.log("PROFILE:", data);
-    handleProfileSubmit(data);
+  const navigate = useNavigate();
+
+  const handleSubmitProfile = async (profile, courses) => {
+    setLoading(true);
+    try {
+      const res = await fetch(
+        "http://localhost:5000/api/match-courses/advanced-matching",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            profile: profile,
+            courses: courses,
+          }),
+        }
+      );
+
+      // Check if request was successful
+      if (!res.ok) {
+        console.log("This is the error",res.json());
+        //throw new Error(`HTTP error! status: ${res.status}`);
+        setLoading(false);
+        setError(res.json().error);
+        setTimeout(() => {
+          setError(null);
+        }, 5000);
+        return;
+      }
+
+      // Parse the JSON response
+      const data = await res.json();
+      console.log("Data from n8n", data);
+      if (data.success) {
+        sessionStorage.setItem(
+          "ai-recommendations",
+          JSON.stringify(data.courses)
+        );
+        setLoading(false);
+
+        setSuccess("Profile successfully submitted");
+        setTimeout(() => {
+          setSuccess(null);
+        }, 5000);
+
+        displayRecomendedCourses();
+      } else {
+        setLoading(false);
+        setError("An error occured, please try again!");
+        setTimeout(() => {
+          setError(null);
+        }, 5000);
+      }
+
+      // Now data should be your simple object with courses array
+      //setRecommendations(data.courses); // or data.recommendedCourses depending on your backend
+    } catch (error) {
+      console.error("Error fetching recommendations:", error);
+      setError(error);
+      setTimeout(() => {
+        setError(null);
+      }, 5000);
+    }
   };
+  const onSubmit = (data) => {
+    const currentQualifiedCourses = JSON.parse(
+      sessionStorage.getItem("qualified-courses")
+    );
+    data = getDefaultProfileValues();
+    handleSubmitProfile(data, currentQualifiedCourses);
+  };
+
+  const displayRecomendedCourses = () => {
+    let courseSlug = JSON.parse(sessionStorage.getItem("visited-uni"));
+    let url = "/view-courses/" + courseSlug;
+
+    sessionStorage.setItem("ai-tab", JSON.stringify("true"));
+    navigate(url);
+  };
+
+  function getDefaultProfileValues() {
+    return {
+      fullName: "Alex Mokoena",
+      age: 19,
+      strengths:
+        "Strong analytical thinking, problem-solving skills, attention to detail, logical reasoning",
+      weaknesses:
+        "Sometimes spends too much time perfecting solutions, public speaking confidence",
+      goals:
+        "To build a career in technology or finance, gaining practical skills in software development and accounting",
+      aspiration:
+        "To create systems that improve business efficiency and financial transparency",
+      preferredEnvironment: "balanced",
+      dreamJob: "Software Engineer or Financial Analyst",
+      enjoyedSubjects:
+        "Computer Applications Technology, Mathematics, Accounting",
+      dislikedSubjects: "History, Geography",
+      hobbies:
+        "Coding small projects, data analysis, reading about technology and finance",
+    };
+  }
 
   return (
     <div className="form-wrapper">
@@ -214,8 +315,42 @@ export default function StudentProfileForm() {
           )}
         </div>
 
+        {/* Success message */}
+        {success && (
+          <div
+            style={{
+              backgroundColor: "#e6ffed",
+              color: "#2e7d32",
+              border: "1px solid #2e7d32",
+              padding: "0.75rem 1rem",
+              margin: "1rem auto",
+              borderRadius: "6px",
+              fontWeight: 500,
+            }}
+          >
+            {success}
+          </div>
+        )}
+
+        {/* Error message */}
+        {error && (
+          <div
+            style={{
+              backgroundColor: "#ffe6e6",
+              color: "#c62828",
+              border: "1px solid #c62828",
+              padding: "0.75rem 1rem",
+              margin: "1rem auto",
+              borderRadius: "6px",
+              fontWeight: 500,
+            }}
+          >
+            {error}
+          </div>
+        )}
+
         <button className="submit-btn" type="submit">
-          Save Profile
+          {loading === true ? "Submitting..." : "Submit Profile"}
         </button>
       </form>
     </div>

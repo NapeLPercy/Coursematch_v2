@@ -37,7 +37,7 @@ export default function ViewSubjectsPage() {
       );
 
       console.log("This is the data", res.data);
-      setSubjects(res.data);
+      setSubjects(res.data.subjects);
     } catch (err) {
       console.error("Error loading subjects:", err);
     } finally {
