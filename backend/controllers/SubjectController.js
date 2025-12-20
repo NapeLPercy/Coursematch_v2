@@ -20,7 +20,7 @@ exports.addSubjects = async (req, res) => {
       });
     }
 
-    console.log("These are student subjectrs",subjects);
+    console.log("These are student subjects",subjects);
 
     const sanitizedSubjects = new SubjectSanitizer(subjects).sanitize();
 
@@ -60,7 +60,7 @@ exports.addSubjects = async (req, res) => {
 };
 
 // =======================================
-// ✅ Get subjects for a student (async)
+// Get subjects for a student (async)
 // =======================================
 exports.getSubjects = async (req, res) => {
   console.log("About to get the data ");
