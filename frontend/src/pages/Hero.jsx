@@ -8,23 +8,24 @@ import {
 } from "lucide-react";
 import "../styles/Hero.css";
 
-const FEATURES = {images:[
-  {
-    label: "AI Course Recommendations",
-    img: "/ai_course_recommendation_hero.png",
-  },
-  {
-    label: "Career Deep Dive",
-    img: "/course_deep_dive_hero.png",
-  },
-  {
-    label: "Course Comparison",
-    img: "/course_comparison_hero.png",
-  },
-],
-pills: ["Requirements clarity", "Instant ranking", "Student-first"]
+const FEATURES = {
+  images: [
+    {
+      label: "AI Course Recommendations",
+      img: "/ai_course_recommendation_hero.png",
+    },
+    {
+      label: "Career Deep Dive",
+      img: "/course_deep_dive_hero.png",
+    },
+    {
+      label: "Course Comparison",
+      img: "/course_comparison_hero.png",
+    },
+  ],
+  // pills: ["Personalized matches", "Know your chances", "Clear next steps"],
+  pills: ["Personalized matches", "Subjects + personality", "Built for you"],
 };
-
 
 export default function Hero() {
   const sectionRef = useRef(null);
@@ -70,9 +71,9 @@ export default function Hero() {
 
           {/* Subtitle */}
           <p className="hero__subtitle">
-            CourseMatch ranks every course you qualify for — instantly. See
-            exactly where you stand, what you need to improve, and which doors
-            are already open.
+            CourseMatch uses your subjects, marks, and personality to find
+            courses that suit you. Discover your strongest matches based on what
+            you’re good at, what you enjoy, and where you want to go.
           </p>
 
           {/* Tick pills */}
@@ -88,7 +89,6 @@ export default function Hero() {
               </li>
             ))}
           </ul>
-
           {/* CTAs — always side by side */}
           <div className="hero__actions">
             <button
