@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -9,7 +8,7 @@ import {
 } from "lucide-react";
 import "../styles/Hero.css";
 
-const FEATURES = [
+const FEATURES = {images:[
   {
     label: "AI Course Recommendations",
     img: "/ai_course_recommendation_hero.png",
@@ -22,9 +21,10 @@ const FEATURES = [
     label: "Course Comparison",
     img: "/course_comparison_hero.png",
   },
-];
+],
+pills: ["Requirements clarity", "Instant ranking", "Student-first"]
+};
 
-const PILLS = ["Requirements clarity", "Instant ranking", "Student-first"];
 
 export default function Hero() {
   const sectionRef = useRef(null);
@@ -56,16 +56,16 @@ export default function Hero() {
             TOP — text block
         ══════════════════════ */}
         <div className="hero__copy">
-          {/* Badge
+          {/* Badge */}
           <div className="hero__badge">
             <span className="hero__badge-dot" aria-hidden="true" />
             AI-Powered Course Matching
-          </div> */}
+          </div>
 
           {/* Title */}
           <h1 className="hero__title">
-            Find your perfect{" "}
-            <span className="hero__title-highlight">course.</span>
+            Find your perfect
+            <span className="hero__title-highlight"> course.</span>
           </h1>
 
           {/* Subtitle */}
@@ -77,7 +77,7 @@ export default function Hero() {
 
           {/* Tick pills */}
           <ul className="hero__pills" aria-label="Key features">
-            {PILLS.map((p) => (
+            {FEATURES.pills.map((p) => (
               <li key={p} className="hero__pill">
                 <CheckCircle2
                   size={15}
@@ -125,7 +125,7 @@ export default function Hero() {
               <div className="hero__line-fill" />
             </div>
             {/* dots at each card junction */}
-            {FEATURES.map((_, i) => (
+            {FEATURES.images.map((_, i) => (
               <div
                 key={i}
                 className="hero__line-dot"
@@ -138,7 +138,7 @@ export default function Hero() {
           </div>
 
           <div className="hero__cards">
-            {FEATURES.map((f, i) => (
+            {FEATURES.images.map((f, i) => (
               <div key={f.label} className="hero__card" style={{ "--ci": i }}>
                 {/* vertical connector dot on mobile */}
                 {i > 0 && (
