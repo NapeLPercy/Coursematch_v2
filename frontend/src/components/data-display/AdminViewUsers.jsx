@@ -12,8 +12,6 @@ function getInitials(email) {
   return email.slice(0, 2).toUpperCase();
 }
 
-
-
 export default function AdminUserList() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
@@ -28,7 +26,6 @@ export default function AdminUserList() {
     setLoading(true);
     try {
       const { data } = await getAllAccounts();
-      console.log(data);
       setUsers(data.result);
     } catch {
       setError("Failed to load users data");
@@ -56,12 +53,11 @@ export default function AdminUserList() {
     });
   }, [users, search, filter]);
 
-
-const handleSendEmail = (user) => {
-  navigate("/admin/send-email", {
-    state: { user },
-  });
-};
+  const handleSendEmail = (user) => {
+    navigate("/admin/send-email", {
+      state: { user },
+    });
+  };
 
   if (loading) return <AdminUserListSkeleton />;
   if (error) return <ErrorState message={error} onRetry={fetchUsers} />;
@@ -118,6 +114,9 @@ const handleSendEmail = (user) => {
                 <th>Joined</th>
                 <th>Profile</th>
                 <th>Subjects</th>
+                <th>Recommendations</th>
+                <th>Comparisions</th>
+                <th>Deep Dives</th>
                 <th>Message</th>
               </tr>
             </thead>
@@ -151,6 +150,21 @@ const handleSendEmail = (user) => {
                   </td>
                   <td>
                     <StatusPill value={u.hasSubjects} label="Subjects" />
+                  </td>
+
+                  <td>
+                    <StatusPill
+                      value={u.hasRecomendations}
+                      label="Recommendations"
+                    />
+                  </td>
+
+                  <td>
+                    <StatusPill value={u.hasComparisons} label="Comparisons" />
+                  </td>
+
+                  <td>
+                    <StatusPill value={u.hasDeepDives} label="Deep Dives" />
                   </td>
                   <td>
                     <button
