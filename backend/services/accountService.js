@@ -102,8 +102,18 @@ const getAdminAccounts = () => {
     try {
       const accounts = await accountModel.getAllAccounts();
 
+      //filter accounts used for testing
+     const newAccounts = accounts.filter((acc) => {
+        return ![
+          "lmankoe105@gmail.com",
+          "lpercy515@gmail.com",
+          "lol@gmail.com",
+          "rinah@gmail.com",
+        ].includes(acc.email);
+      });
+
       const enriched = await Promise.all(
-        accounts.map(async (acc) => {
+        newAccounts.map(async (acc) => {
           //check profile
           const profile = await accountModel.getStudentProfileByUserId(
             acc.user_id,
