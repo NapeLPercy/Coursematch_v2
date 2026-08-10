@@ -149,8 +149,8 @@ module.exports = {
       });
     });
   },
-  //admin views all account(3 bellow methods)
 
+  //admin views all account(3 bellow methods)
   getAllAccounts: async () => {
     const sql = `
     SELECT
@@ -197,6 +197,55 @@ WHERE a.role = 'STUDENT'`;
 
     return new Promise((resolve, reject) => {
       db.query(sql, [studentId], (err, rows) => {
+        if (err) return reject(err);
+        resolve(rows.length > 0);
+      });
+    });
+  },
+
+  //check if ai recommendations exists
+  checkAiRecommendationsExist: async (userId) => {
+    const sql = `
+    SELECT 1
+    FROM ai_course_recommendations
+    WHERE user_id = ?
+    LIMIT 1
+  `;
+
+    return new Promise((resolve, reject) => {
+      db.query(sql, [userId], (err, rows) => {
+        if (err) return reject(err);
+        resolve(rows.length > 0);
+      });
+    });
+  },
+  //check if course comparisons exists
+  checkCourseComparisonExist: async (userId) => {
+    const sql = `
+    SELECT 1
+    FROM ai_course_comparisons
+    WHERE user_id = ?
+    LIMIT 1
+  `;
+    return new Promise((resolve, reject) => {
+      db.query(sql, [userId], (err, rows) => {
+        if (err) return reject(err);
+        resolve(rows.length > 0);
+      });
+    });
+  },
+
+  //check if deep dive exists
+  checkCourseDeepDiveExist: async (userId) => {
+    const sql = `
+    SELECT 1
+    FROM ai_course_deep_dives
+    WHERE user_id = ?
+    LIMIT 1
+  `;
+
+    return new Promise((resolve, reject) => {
+      db.query(sql, [userId], (err, rows) => {
         if (err) return reject(err);
         resolve(rows.length > 0);
       });

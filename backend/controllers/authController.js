@@ -191,13 +191,14 @@ exports.verifyAccount = async (req, res) => {
 exports.getAdminAccounts = async (req, res) => {
   try {
     const { userId } = req;
-    const result = await getAdminAccounts();
 
     if (!userId) {
       return res
         .status(401)
         .json({ success: false, message: "Not authenticated" });
     }
+
+        const result = await getAdminAccounts();
 
     return res.status(200).json({
       result,

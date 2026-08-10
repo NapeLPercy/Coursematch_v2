@@ -16,7 +16,7 @@ async function updateAccountRole(conn, data) {
 }
 
 async function updateLastLogin(userId) {
- await accountModel.updateLastLogin(userId);
+  await accountModel.updateLastLogin(userId);
 }
 
 //checks if email is registered
@@ -104,17 +104,33 @@ const getAdminAccounts = () => {
 
       const enriched = await Promise.all(
         accounts.map(async (acc) => {
+          //check profile
           const profile = await accountModel.getStudentProfileByUserId(
             acc.user_id,
           );
-
           const hasProfile = !!(profile && profile.dream_job);
 
+          //check subjects
           let hasSubjects = false;
-
           if (profile) {
             hasSubjects = await accountModel.checkSubjectsExistByStudentId(
               profile.id,
+            );
+          }
+
+          //check ai features usage
+          let hasRecomendations = false;
+          let hasComparisons = false;
+          let hasDeepDives = false;
+          if (hasProfile) {
+            hasRecomendations = await accountModel.checkAiRecommendationsExist(
+              acc.user_id,
+            );
+            hasComparisons = await accountModel.checkCourseComparisonExist(
+              acc.user_id,
+            );
+            hasDeepDives = await accountModel.checkCourseDeepDiveExist(
+              acc.user_id,
             );
           }
 
@@ -122,6 +138,9 @@ const getAdminAccounts = () => {
             ...acc,
             hasProfile: hasProfile,
             hasSubjects: hasSubjects,
+            hasComparisons: hasComparisons,
+            hasRecomendations: hasRecomendations,
+            hasDeepDives: hasDeepDives,
           };
         }),
       );
