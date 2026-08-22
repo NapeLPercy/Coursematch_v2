@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { BrainCog, ChevronLeft, ChevronRight, Send, Check } from "lucide-react";
+import {
+  BrainCog,
+  ChevronLeft,
+  ChevronRight,
+  Send,
+  Check,
+  GraduationCap,
+} from "lucide-react";
 import { personalityQuestions } from "../../Utils/textData/personalityQuestions";
 import { addCompleteStudentInfo } from "../../services/studentService";
 import SubmitSuccess from "../ui/SubmitSuccess";
@@ -8,6 +15,7 @@ import PageHeader from "../ui/PageHeader";
 import "../../styles/AddMyProfile.css";
 import { STEPS } from "../../Utils/textData/personalityQuestions";
 import { useSubjects } from "../../context/SubjectContext";
+import ActionPrompt from "../data-display/ActionPrompt";
 
 const TOTAL = STEPS.length;
 
@@ -155,6 +163,7 @@ export default function PersonalityProfileWizard() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [aiFeaturesPrompt, setAiFeaturesPrompt] = useState(false);
 
   const currentStep = STEPS[step];
   const isLast = step === TOTAL - 1;
@@ -238,7 +247,8 @@ export default function PersonalityProfileWizard() {
       }, 3000);
     } catch (err) {
       if (err?.response?.status === 409) {
-        setSubmitError("You already submitted your personality profile.");
+        setAiFeaturesPrompt(true);
+        // setSubmitError("You already submitted your personality profile.");
         return;
       }
       setSubmitError("Submission failed. Please try again.");
@@ -256,127 +266,144 @@ export default function PersonalityProfileWizard() {
         title="My personality profile"
         subtitle="Your personal insights help our AI recommend courses that truly fit who you are."
       />
-
-      {/* Progress */}
-      <div className="amp__progress">
-        <div className="amp__progress-track">
-          <div
-            className="amp__progress-fill"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-        <span className="amp__progress-label">
-          {step + 1} <span className="amp__progress-sep">/</span> {TOTAL}
-        </span>
-      </div>
-
-      {/* Card */}
-      <div className="amp__card" key={step}>
-        {!currentStep.paired && (
-          <>
-            <span className="amp__step-badge">
-              Question {step + 1} of {TOTAL}
+      {aiFeaturesPrompt ? (
+        <ActionPrompt
+          icon={GraduationCap}
+          title="Profile submitted!"
+          subtitle="You can now access personalized AI-driven course recommendations, compare qualifications side-by-side, and explore different careers."
+          btnText="View University courses"
+          navigateTo="/view-courses"
+        />
+      ) : (
+        <>
+          {/* Progress */}
+          <div className="amp__progress">
+            <div className="amp__progress-track">
+              <div
+                className="amp__progress-fill"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <span className="amp__progress-label">
+              {step + 1} <span className="amp__progress-sep">/</span> {TOTAL}
             </span>
-            <h2 className="amp__question">{q.label}</h2>
-            {q.helperText && <p className="amp__helper">{q.helperText}</p>}
+          </div>
 
-            {(q.type === "multiple" || q.type === "subjects") && (
-              <p className="amp__counter">
-                {Array.isArray(answers[q.name]) ? answers[q.name].length : 0} /{" "}
-                {q.maxAnswers} selected
-              </p>
+          {/* Card */}
+          <div className="amp__card" key={step}>
+            {!currentStep.paired && (
+              <>
+                <span className="amp__step-badge">
+                  Question {step + 1} of {TOTAL}
+                </span>
+                <h2 className="amp__question">{q.label}</h2>
+                {q.helperText && <p className="amp__helper">{q.helperText}</p>}
+
+                {(q.type === "multiple" || q.type === "subjects") && (
+                  <p className="amp__counter">
+                    {Array.isArray(answers[q.name])
+                      ? answers[q.name].length
+                      : 0}{" "}
+                    / {q.maxAnswers} selected
+                  </p>
+                )}
+
+                {q.type === "multiple" && (
+                  <MultiSelect
+                    question={q}
+                    value={answers[q.name]}
+                    onChange={(val) => handleChange(q.name, val)}
+                  />
+                )}
+
+                {q.type === "single" && (
+                  <SingleSelect
+                    question={q}
+                    value={answers[q.name]}
+                    onChange={(val) => handleChange(q.name, val)}
+                  />
+                )}
+
+                {q.type === "subjects" && (
+                  <SubjectSelect
+                    question={q}
+                    value={answers[q.name]}
+                    onChange={(val) => handleChange(q.name, val)}
+                  />
+                )}
+
+                {errors[q.name] && (
+                  <p className="amp__error">{errors[q.name]}</p>
+                )}
+              </>
             )}
 
-            {q.type === "multiple" && (
-              <MultiSelect
-                question={q}
-                value={answers[q.name]}
-                onChange={(val) => handleChange(q.name, val)}
-              />
+            {currentStep.paired && (
+              <>
+                <span className="amp__step-badge">
+                  Question {step + 1} of {TOTAL}
+                </span>
+                <h2 className="amp__question">Your subject preferences</h2>
+                <PairedSubjects
+                  questions={currentStep.questions}
+                  answers={answers}
+                  onChange={handleChange}
+                />
+                {currentStep.questions.map((pq) =>
+                  errors[pq.name] ? (
+                    <p key={pq.name} className="amp__error">
+                      {errors[pq.name]}
+                    </p>
+                  ) : null,
+                )}
+              </>
             )}
+          </div>
 
-            {q.type === "single" && (
-              <SingleSelect
-                question={q}
-                value={answers[q.name]}
-                onChange={(val) => handleChange(q.name, val)}
-              />
-            )}
+          {success && (
+            <SubmitSuccess success="Profile submitted successfully!" />
+          )}
+          {submitError && <SubmitError error={submitError} />}
 
-            {q.type === "subjects" && (
-              <SubjectSelect
-                question={q}
-                value={answers[q.name]}
-                onChange={(val) => handleChange(q.name, val)}
-              />
-            )}
+          {/* Actions */}
+          <div className="amp__actions">
+            <button
+              type="button"
+              className="amp__btn amp__btn--back"
+              onClick={handleBack}
+              disabled={step === 0}
+            >
+              <ChevronLeft size={16} strokeWidth={2.5} />
+              Back
+            </button>
 
-            {errors[q.name] && <p className="amp__error">{errors[q.name]}</p>}
-          </>
-        )}
-
-        {currentStep.paired && (
-          <>
-            <span className="amp__step-badge">
-              Question {step + 1} of {TOTAL}
-            </span>
-            <h2 className="amp__question">Your subject preferences</h2>
-            <PairedSubjects
-              questions={currentStep.questions}
-              answers={answers}
-              onChange={handleChange}
-            />
-            {currentStep.questions.map((pq) =>
-              errors[pq.name] ? (
-                <p key={pq.name} className="amp__error">
-                  {errors[pq.name]}
-                </p>
-              ) : null,
-            )}
-          </>
-        )}
-      </div>
-
-      {success && <SubmitSuccess success="Profile submitted successfully!" />}
-      {submitError && <SubmitError error={submitError} />}
-
-      {/* Actions */}
-      <div className="amp__actions">
-        <button
-          type="button"
-          className="amp__btn amp__btn--back"
-          onClick={handleBack}
-          disabled={step === 0}
-        >
-          <ChevronLeft size={16} strokeWidth={2.5} />
-          Back
-        </button>
-
-        {isLast ? (
-          <button
-            type="button"
-            className="amp__btn amp__btn--submit"
-            onClick={handleSubmit}
-            disabled={loading}
-          >
-            {loading ? (
-              <span className="amp__spinner" />
+            {isLast ? (
+              <button
+                type="button"
+                className="amp__btn amp__btn--submit"
+                onClick={handleSubmit}
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="amp__spinner" />
+                ) : (
+                  <Send size={15} strokeWidth={2.2} />
+                )}
+                {loading ? "Submitting…" : "Submit Profile"}
+              </button>
             ) : (
-              <Send size={15} strokeWidth={2.2} />
+              <button
+                type="button"
+                className="amp__btn amp__btn--next"
+                onClick={handleNext}
+              >
+                Next
+                <ChevronRight size={16} strokeWidth={2.5} />
+              </button>
             )}
-            {loading ? "Submitting…" : "Submit Profile"}
-          </button>
-        ) : (
-          <button
-            type="button"
-            className="amp__btn amp__btn--next"
-            onClick={handleNext}
-          >
-            Next
-            <ChevronRight size={16} strokeWidth={2.5} />
-          </button>
-        )}
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
