@@ -1,0 +1,203 @@
+/* SUCCESS PAGE — CourseMatch */
+
+.sp {
+  width: 100%;
+  min-height: 70vh;
+  background: #f0fdf4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 20px;
+  border-radius: 24px;
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+/* ── CARD ────────────────────────────────── */
+.sp__card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border: 1px solid #bbf7d0;
+  border-radius: 24px;
+  padding: 26px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+  /* box-shadow: 0 8px 40px rgba(22, 163, 74, 0.1),
+              0 2px 12px rgba(22, 163, 74, 0.06); */
+  animation: spSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes spSlideUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+/* ── RINGS — decorative circles ─────────── */
+.sp__ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(22, 163, 74, 0.12);
+  pointer-events: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: spRingPulse 3s ease-in-out infinite;
+}
+
+.sp__ring--outer {
+  width: 340px;
+  height: 340px;
+  animation-delay: 0s;
+}
+
+.sp__ring--inner {
+  width: 260px;
+  height: 260px;
+  animation-delay: 0.4s;
+}
+
+@keyframes spRingPulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1);    }
+  50%       { opacity: 0.2; transform: translate(-50%, -50%) scale(1.03); }
+}
+
+/* ── ICON ────────────────────────────────── */
+.sp__icon-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.sp__icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  border: 1.5px solid #86efac;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #15803d;
+  box-shadow: 0 4px 20px rgba(22, 163, 74, 0.18);
+  animation: spIconPop 0.6s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes spIconPop {
+  from { transform: scale(0.7); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+/* ── CHECK BADGE ─────────────────────────── */
+.sp__check {
+  position: absolute;
+  top: 36px;
+  right: 36px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #16a34a;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.35);
+  animation: spCheckPop 0.4s 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  z-index: 2;
+}
+
+@keyframes spCheckPop {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ── TEXT ────────────────────────────────── */
+.sp__text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.sp__title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  font-weight: 700;
+  color: #14532d;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.sp__subtitle {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: #475569;
+  margin: 0;
+}
+
+/* ── DIVIDER ─────────────────────────────── */
+.sp__divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #dcfce7, transparent);
+}
+
+/* ── BUTTON ──────────────────────────────── */
+.sp__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 32px;
+  border-radius: 11px;
+  border: none;
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: #ffffff;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.3);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.sp__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.4);
+}
+
+.sp__btn:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(22, 163, 74, 0.3);
+}
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media (max-width: 480px) {
+  .sp__card {
+    padding: 44px 24px 32px;
+    border-radius: 20px;
+  }
+
+  .sp__ring--outer { width: 280px; height: 280px; }
+  .sp__ring--inner { width: 200px; height: 200px; }
+
+  .sp__icon-circle {
+    width: 68px;
+    height: 68px;
+  }
+
+  .sp__check {
+    top: 28px;
+    right: 24px;
+  }
+
+  .sp__btn {
+    width: 100%;
+    padding: 13px 24px;
+  }
+}
