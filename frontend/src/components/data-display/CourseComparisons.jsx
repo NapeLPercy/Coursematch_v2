@@ -54,10 +54,11 @@ export default function CourseComparisons() {
     setFetchError(false);
     try {
       const { data } = await getMyMatches();
+      console.log(data);
       setCourses(data.matchedData || []);
       //courses compared for first time, remove cache
-      const dashboadData = getCachedDashboard();
-      if (!dashboadData.data.flags.hasComparison) {
+      const dashboardData = getCachedDashboard();
+      if (dashboardData && !dashboardData.data.flags.hasComparison) {
         sessionStorage.removeItem("student_dashboard");
       }
     } catch {
@@ -103,12 +104,10 @@ export default function CourseComparisons() {
     setCompareError(false);
     setComparison(null);
     try {
-      console.log(selected,"sent to server");
       const { data } = await getOrCreateCourseComparisons({
         qualifications: selected,
         subjects: getSubjects(),
       });
-      console.log(data.comparison.comparisonData,"from server");
       setComparison(data.comparison.comparisonData);
     } catch {
       setCompareError(true);
@@ -290,7 +289,7 @@ export default function CourseComparisons() {
           >
             <X size={14} strokeWidth={2.5} /> Start over
           </button>
-          <ComparisonResult comparison={comparison}/>
+          <ComparisonResult comparison={comparison} />
         </>
       )}
     </div>

@@ -48,11 +48,10 @@ export default function DeepDive() {
       setDeepDive(data.results);
 
       //recomendations fetched for first time, remove cache
-      const dashboadData = getCachedDashboard();
-      if(!dashboadData.data.flags.hasDeepDive){
+      const dashboardData = getCachedDashboard();
+      if (dashboardData && !dashboardData.data.flags.hasDeepDive) {
         sessionStorage.removeItem("student_dashboard");
       }
-
     } catch (err) {
       console.log(err);
       setError(true);
@@ -138,7 +137,6 @@ export default function DeepDive() {
 
       {/* Main grid */}
       <div className="dd__grid">
-
         {/* Description */}
         <div className="dd__card" style={{ "--i": 0 }}>
           <div className="dd__card-icon dd__card-icon--orange">
