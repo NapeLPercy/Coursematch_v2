@@ -53,9 +53,9 @@ async function addAccount(email, password) {
     //send email to user
     await sendEmail({
       to: email,
-      subject: "Verify your account",
+      subject: "Verify your CourseMatch account",
       html: `
-    <h1>Welcome!</h1>
+    <h1>Welcome to CourseMatch!</h1>
     <p>Please verify your email by clicking the link below.</p>
     <a href="${results?.link}">
       Verify Email
@@ -78,6 +78,10 @@ async function login(email) {
   return await accountModel.login(email);
 }
 
+//get email by userId
+async function getEmail(userId) {
+  return await accountModel.getEmail(userId);
+}
 //Comapares submitted password vs saved db password
 async function validatePassword(enteredPassword, savedPassword) {
   return await bcrypt.compare(enteredPassword, savedPassword);
@@ -103,7 +107,7 @@ const getAdminAccounts = () => {
       const accounts = await accountModel.getAllAccounts();
 
       //filter accounts used for testing
-     const newAccounts = accounts.filter((acc) => {
+      const newAccounts = accounts.filter((acc) => {
         return ![
           "lmankoe105@gmail.com",
           "lpercy515@gmail.com",
@@ -171,4 +175,5 @@ module.exports = {
   generateToken,
   getAdminAccounts,
   updateLastLogin,
+  getEmail,
 };

@@ -253,4 +253,16 @@ WHERE a.role = 'STUDENT' OR a.role IS NULL`;
       });
     });
   },
+
+  //get account email by userId
+  getEmail: async (userId) => {
+    const sql = `SELECT email FROM account WHERE user_id = ?`;
+
+    return new Promise((resolve, reject) => {
+      db.query(sql, [userId], (err, result) => {
+        if (err) return reject(err);
+        resolve(result[0]);
+      });
+    });
+  },
 };
