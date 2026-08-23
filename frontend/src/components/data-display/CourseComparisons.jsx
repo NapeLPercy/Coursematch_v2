@@ -4,6 +4,7 @@ import { getOrCreateCourseComparisons } from "../../services/aiService";
 import { useSubjects } from "../../context/SubjectContext";
 import ErrorState from "../ui/ErrorState";
 import EmptyState from "../ui/EmptyState";
+import PageHeader from "../ui/PageHeader";
 import {
   Search,
   X,
@@ -119,18 +120,13 @@ export default function CourseComparisons() {
   return (
     <div className="cc">
       {/* Hero */}
-      <div className="cc__hero">
-        <div className="cc__hero-icon">
-          <GraduationCap size={26} strokeWidth={1.8} />
-        </div>
-        <div className="cc__hero-text">
-          <h1 className="cc__title">Compare courses</h1>
-          <p className="cc__subtitle">
-            Select 2 courses to generate a side-by-side AI comparison — match
-            scores, career paths, salary outlook and more.
-          </p>
-        </div>
-      </div>
+
+      <PageHeader
+        icon={GraduationCap}
+        title="Compare courses"
+        subtitle="Select 2 courses to generate a side-by-side AI comparison — match
+            scores, career paths, salary outlook and more."
+      />
 
       {/* Selected strip */}
       <div className="cc__selected-strip">

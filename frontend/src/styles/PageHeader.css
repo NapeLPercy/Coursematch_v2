@@ -3,7 +3,7 @@
 .ph {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -12,24 +12,21 @@
 .ph__back {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 9px 16px;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 10px;
-  background: #ffffff;
-  color: #475569;
+  gap: 6px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: #94a3b8;
   font-family: "Inter", "Segoe UI", system-ui, sans-serif;
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
   align-self: flex-start;
-  transition: all 0.18s ease;
+  transition: color 0.15s ease;
 }
 
 .ph__back:hover {
-  border-color: #3b82f6;
-  color: #2563eb;
-  background: #eff6ff;
+  color: #475569;
 }
 
 /* ── HERO ────────────────────────────────── */
@@ -37,11 +34,6 @@
   display: flex;
   align-items: flex-start;
   gap: 18px;
-  padding: 24px 28px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 18px;
-  box-shadow: 0 2px 16px rgba(30, 58, 138, 0.05);
 }
 
 .ph__icon {
@@ -60,8 +52,25 @@
 .ph__text {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 6px;
   min-width: 0;
+}
+
+.ph__title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.ph__subtitle {
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  font-size: 0.87rem;
+  line-height: 1.65;
+  color: #475569;
+  margin: 0;
 }
 
 /* ── PILLS ───────────────────────────────── */
@@ -69,6 +78,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
+  margin-top: 2px;
 }
 
 .ph__pill {
@@ -86,30 +96,10 @@
 .ph__pill--blue {
   background: #dbeafe;
   color: #1e3a8a;
-  border: 1px solid rgba(37, 99, 235, 0.18);
 }
-
 .ph__pill--green {
   background: #dcfce7;
   color: #15803d;
-  border: 1px solid rgba(22, 163, 74, 0.18);
-}
-
-/* ── TEXT ────────────────────────────────── */
-.ph__title {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(1.3rem, 3vw, 1.9rem);
-  font-weight: 700;
-  color: #1e293b;
-  margin: 0;
-  line-height: 1.2;
-}
-
-.ph__subtitle {
-  font-size: 0.87rem;
-  line-height: 1.65;
-  color: #475569;
-  margin: 0;
 }
 
 /* ── RESPONSIVE ──────────────────────────── */
@@ -117,7 +107,6 @@
   .ph__hero {
     flex-direction: column;
     gap: 12px;
-    padding: 18px;
   }
 
   .ph__icon {

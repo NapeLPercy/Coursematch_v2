@@ -13,6 +13,7 @@ import { useSubjects } from "../../context/SubjectContext";
 import { addStudentSubjects } from "../../services/subjectService";
 import SubmitSuccess from "../ui/SubmitSuccess";
 import ProgressBar from "../ui/ProgressBar";
+import PageHeader from "../ui/PageHeader";
 import { validate } from "../../Utils/subjectsValidater";
 import SubjectSelect from "../ui/SubjectSelect";
 import MinorCourseMatching from "../data-display/MinorCourseMatching";
@@ -76,21 +77,19 @@ export default function AddSubjects() {
       setTimeout(() => reset(), 3000);
 
       ///subjects submitted, add endorsement to session,remove current dashboard
-      sessionStorage.setItem(
-        "endorsement",
-        JSON.stringify(data?.endorsement),
-      );
-      
+      sessionStorage.setItem("endorsement", JSON.stringify(data?.endorsement));
+
       sessionStorage.removeItem("student_dashboard");
-        setShowMinorMatches(true);
+      setShowMinorMatches(true);
     } catch (err) {
       setErrors([
         err.response?.data?.message || "Submission failed. Try again.",
       ]);
-      
+
       const errorOuput = err?.response;
       //user already added subjects,show minor match
-      if (errorOuput.data.message === "You already added your Subjects" &&
+      if (
+        errorOuput.data.message === "You already added your Subjects" &&
         errorOuput.status === 409
       ) {
         setShowMinorMatches(true);
@@ -136,23 +135,16 @@ export default function AddSubjects() {
     },
   ];
 
-
-  if (showMinorMatches) return <MinorCourseMatching />
+  if (showMinorMatches) return <MinorCourseMatching />;
   return (
     <div className="as">
       {/* Header */}
-      <div className="as__hero">
-        <div className="as__hero-icon">
-          <BookOpen size={26} strokeWidth={1.8} />
-        </div>
-        <div className="as__hero-text">
-          <h1 className="as__title">Add your subjects</h1>
-          <p className="as__subtitle">
-            Enter your matric subjects and marks. You need between 7 and 15
-            subjects.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        icon={BookOpen}
+        title="Add your subjects"
+        subtitle="Enter your matric subjects and marks. You need between 7 and 15
+            subjects."
+      />
 
       {/* Requirements strip */}
       <div className="as__reqs">

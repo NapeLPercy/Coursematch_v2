@@ -24,53 +24,6 @@
   }
 }
 
-/* ── HERO ────────────────────────────────── */
-.cc__hero {
-  display: flex;
-  align-items: flex-start;
-  gap: 18px;
-  padding: 26px 30px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  box-shadow: 0 2px 16px rgba(30, 58, 138, 0.05);
-}
-
-.cc__hero-icon {
-  width: 54px;
-  height: 54px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #1e3a8a, #2563eb);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  flex-shrink: 0;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
-}
-
-.cc__hero-text {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.cc__title {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(1.4rem, 3vw, 2rem);
-  font-weight: 700;
-  color: #1e293b;
-  margin: 0;
-  line-height: 1.2;
-}
-
-.cc__subtitle {
-  font-size: 0.86rem;
-  line-height: 1.65;
-  color: #475569;
-  margin: 0;
-}
-
 /* ── SELECTED STRIP ──────────────────────── */
 .cc__selected-strip {
   display: flex;
@@ -612,43 +565,6 @@
   flex-shrink: 0;
 }
 
-/* Score ring 
-.cc__ring {
-  transform: rotate(-90deg);
-  overflow: visible;
-}
-
-.cc__ring-bg {
-  fill: none;
-  stroke: #e2e8f0;
-  stroke-width: 5;
-}
-
-.cc__ring-fill {
-  fill: none;
-  stroke-width: 5;
-  stroke-linecap: round;
-  stroke-dasharray: 175.9;
-  transition: stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.cc__ring-fill--blue {
-  stroke: #2563eb;
-}
-.cc__ring-fill--gray {
-  stroke: #94a3b8;
-}
-
-.cc__ring-text {
-  fill: #1e293b;
-  font-family: "Inter", system-ui, sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  text-anchor: middle;
-  transform: rotate(90deg);
-  transform-origin: center;
-}
-*/
 .cc__score-name {
   font-size: 0.8rem;
   font-weight: 700;
@@ -657,7 +573,7 @@
   margin: 0;
   line-height: 1.35;
 }
-.cc__star{
+.cc__star {
   font-size: 1.5em;
 }
 
@@ -817,11 +733,7 @@
     padding: 96px 20px 60px;
     gap: 18px;
   }
-  .cc__hero {
-    flex-direction: column;
-    gap: 12px;
-    padding: 18px;
-  }
+
   .cc__selected-strip {
     flex-direction: column;
     align-items: stretch;

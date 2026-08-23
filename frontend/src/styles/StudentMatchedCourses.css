@@ -44,65 +44,6 @@
   }
 }
 
-/* ── HEADER ──────────────────────────────── */
-.qcp__header {
-  display: flex;
-  align-items: flex-start;
-  gap: 18px;
-  
-  padding: 28px 32px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  box-shadow: 0 2px 16px rgba(30, 58, 138, 0.05);
-}
-
-
-
-.qcp__header-icon {
-  width: 58px;
-  height: 58px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, var(--primary-blue), var(--medium-blue));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--white);
-  flex-shrink: 0;
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25);
-  animation: qcpIconPop 0.55s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes qcpIconPop {
-  from {
-    transform: scale(0.75);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-
-
-.qcp__header-title {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
-  font-weight: 700;
-  color: var(--text-dark);
-  margin: 0 0 6px;
-  line-height: 1.2;
-}
-
-.qcp__header-sub {
-  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
-  font-size: 0.9rem;
-  color: var(--text-gray);
-  margin: 0;
-  line-height: 1.65;
-  max-width: 580px;
-}
 
 /* ── CONTROLS ────────────────────────────── */
 .qcp__controls {
@@ -460,17 +401,6 @@
     padding: 24px 14px 48px;
   }
 
-  .qcp__header {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .qcp__header-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 13px;
-  }
-
   .qcp__card-head {
     padding: 16px 16px 0;
   }
@@ -521,13 +451,4 @@
     max-width: 100%;
   }
 }
-/*
-@media (min-width: 1201px) {
-  .qcp__grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
 
-  .qcp__card {
-    max-width: 100%;
-  }
-}*/

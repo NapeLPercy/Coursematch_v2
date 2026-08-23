@@ -12,6 +12,7 @@ import {
 import "../../styles/NsfasEligibilityChecker.css";
 import { getPageRelatedPosts } from "../../services/blogService";
 import RelatedPosts from "../RelatedPosts";
+import PageHeader from "../ui/PageHeader";
 import SEO from "../ui/SEO";
 import { nsfasEligibilityFaqs } from "../../Utils/textData/SeoFaqs";
 
@@ -129,21 +130,14 @@ export default function NsfasEligibilityChecker() {
         url="https://coursematchapp.co.za/nsfas-eligibility-checker"
         faq={nsfasEligibilityFaqs}
       />{" "}
-
       <div className="nec">
         {/* Hero */}
-        <div className="nec__hero">
-          <div className="nec__hero-icon">
-            <ShieldCheck size={26} strokeWidth={1.8} />
-          </div>
-          <div className="nec__hero-text">
-            <h1 className="nec__title">NSFAS Eligibility Checker</h1>
-            <p className="nec__subtitle">
-              Answer a few quick questions to find out if you may qualify for
-              NSFAS funding.
-            </p>
-          </div>
-        </div>
+        <PageHeader
+          icon={ShieldCheck}
+          title="NSFAS Eligibility Checker"
+          subtitle="Answer a few quick questions to find out if you may qualify for
+              NSFAS funding."
+        />
 
         {/* Progress */}
         {!result && (

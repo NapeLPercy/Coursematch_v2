@@ -13,6 +13,7 @@ import ErrorState from "../ui/ErrorState";
 import EmptyState from "../ui/EmptyState";
 import "../../styles/StudentMatchedCourses.css";
 import MatchedCoursesSkeleton from "../ui/MatchedCoursesSkeleton";
+import PageHeader from "../ui/PageHeader";
 import { useNavigate } from "react-router-dom";
 
 export default function QualifiedCoursesPage() {
@@ -99,18 +100,13 @@ export default function QualifiedCoursesPage() {
   return (
     <div className="qcp">
       {/* Header */}
-      <div className="qcp__header">
-        <div className="qcp__header-icon">
-          <GraduationCap size={28} strokeWidth={1.8} />
-        </div>
-        <div>
-          <h1 className="qcp__header-title">Your AI-recommended courses</h1>
-          <p className="qcp__header-sub">
-            These courses are recommended based on your subjects, APS score,
-            matric endorsement, and personality profile.
-          </p>
-        </div>
-      </div>
+
+      <PageHeader
+        icon={GraduationCap}
+        title="Your AI-recommended courses"
+        subtitle="These courses are recommended based on your subjects, APS score,
+            matric endorsement, and personality profile."
+      />
 
       {/* EMPTY: no courses at all */}
       {!loading && courses.length === 0 && (

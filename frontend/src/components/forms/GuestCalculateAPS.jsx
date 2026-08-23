@@ -6,7 +6,7 @@ import {
   X,
   AlertCircle,
   CheckCircle2,
-  BookOpen,
+  Calculator,
 } from "lucide-react";
 import "../../styles/AddSubjects.css";
 import { useSubjects } from "../../context/SubjectContext";
@@ -21,6 +21,7 @@ import SEO from "../ui/SEO";
 import { calculateApsFaqs } from "../../Utils/textData/SeoFaqs";
 import { getPageRelatedPosts } from "../../services/blogService";
 import RelatedPosts from "../RelatedPosts";
+import PageHeader from "../ui/PageHeader";
 export default function GuestCalculateAPS() {
   const { addSubjects, getSubjects } = useSubjects();
 
@@ -58,7 +59,7 @@ export default function GuestCalculateAPS() {
     if (subjectsData && subjectsData.length > 0) setSubjects(subjectsData);
   }, []);
 
-   useEffect(() => {
+  useEffect(() => {
     fetchPageRelatedPosts();
   }, []);
 
@@ -107,7 +108,8 @@ export default function GuestCalculateAPS() {
     }
   };
 
-  if (results) return <GuestResultsSummary data={results} posts={relatedPosts} />;
+  if (results)
+    return <GuestResultsSummary data={results} posts={relatedPosts} />;
 
   const requirements = [
     {
@@ -162,18 +164,12 @@ export default function GuestCalculateAPS() {
 
       <div className="as">
         {/* Hero */}
-        <div className="as__hero">
-          <div className="as__hero-icon">
-            <BookOpen size={26} strokeWidth={1.8} />
-          </div>
-          <div className="as__hero-text">
-            <h1 className="as__title">Calculate your APS</h1>
-            <p className="as__subtitle">
-              Enter your matric subjects and marks to instantly see your APS for
-              different South African universities.
-            </p>
-          </div>
-        </div>
+        <PageHeader
+          icon={Calculator}
+          title="Calculate your APS"
+          subtitle="Enter your matric subjects and marks to instantly see your APS for
+              different South African universities."
+        />
 
         {/* Requirements strip */}
         <div className="as__reqs">
