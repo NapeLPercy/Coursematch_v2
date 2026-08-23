@@ -158,11 +158,13 @@ module.exports = {
     a.user_id,
     a.created_at,
     a.email,
+    a.role,
+    a.status,
     u.last_login
 FROM account a
 INNER JOIN user u
     ON a.user_id = u.id
-WHERE a.role = 'STUDENT'`;
+WHERE a.role = 'STUDENT' OR a.role IS NULL`;
 
     return new Promise((resolve, reject) => {
       db.query(sql, [], (err, rows) => {

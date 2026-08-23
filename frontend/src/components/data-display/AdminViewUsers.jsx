@@ -110,6 +110,8 @@ export default function AdminUserList() {
             <thead>
               <tr>
                 <th>User</th>
+                <th>Role</th>
+                <th>Status</th>
                 <th>Last Login</th>
                 <th>Joined</th>
                 <th>Profile</th>
@@ -133,6 +135,17 @@ export default function AdminUserList() {
                         </span>
                       </div>
                     </div>
+                  </td>
+                  <td>
+                    <span className="aul__id">
+                      {u?.role}
+                    </span>
+                  </td>
+
+                  <td>
+                    <span className="aul__id">
+                      {u?.status}
+                    </span>
                   </td>
                   <td>
                     <span className="aul__id">
