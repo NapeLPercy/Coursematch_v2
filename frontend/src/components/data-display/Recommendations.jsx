@@ -23,7 +23,7 @@ function Recommendations({ uniSlug, setAps, setUnlockedCount }) {
   const subjects = getSubjects();
 
   const qualifiedCourses = useMemo(() => {
-    if(qualifications.length===0 || subjects.length===0)return [];
+    if (qualifications.length === 0 || subjects.length === 0) return [];
 
     const endorsement = JSON.parse(sessionStorage.getItem("endorsement"));
 
@@ -78,8 +78,8 @@ function Recommendations({ uniSlug, setAps, setUnlockedCount }) {
       const results = data.results || [];
       setRecommendedCourses(results);
       //recomendations fetched for first time, remove cache
-      const dashboadData = getCachedDashboard();
-      if(!dashboadData.data.flags.hasRecommendation){
+      const dashboardData = getCachedDashboard();
+      if (dashboardData && !dashboardData.data.flags.hasRecommendation) {
         sessionStorage.removeItem("student_dashboard");
       }
     } catch (err) {

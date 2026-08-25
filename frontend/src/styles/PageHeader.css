@@ -93,14 +93,8 @@
   width: fit-content;
 }
 
-.ph__pill--blue {
-  background: #dbeafe;
-  color: #1e3a8a;
-}
-.ph__pill--green {
-  background: #dcfce7;
-  color: #15803d;
-}
+.ph__pill--blue  { background: #dbeafe; color: #1e3a8a; }
+.ph__pill--green { background: #dcfce7; color: #15803d; }
 
 /* ── RESPONSIVE ──────────────────────────── */
 @media (max-width: 640px) {
