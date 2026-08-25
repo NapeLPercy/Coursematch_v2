@@ -123,7 +123,7 @@ export default function CourseComparisons() {
 
       <PageHeader
         icon={GraduationCap}
-        title="Compare courses"
+        title="Compare matched courses"
         subtitle="Select 2 courses to generate a side-by-side AI comparison — match
             scores, career paths, salary outlook and more."
       />

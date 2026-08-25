@@ -103,9 +103,8 @@ export default function QualifiedCoursesPage() {
 
       <PageHeader
         icon={GraduationCap}
-        title="Your AI-recommended courses"
-        subtitle="These courses are recommended based on your subjects, APS score,
-            matric endorsement, and personality profile."
+        title="Explore Your Course Matches"
+        subtitle="Select a recommended course to explore its requirements, career paths, potential employers, salary ranges, different career options, and why it may be a good fit for you."
       />
 
       {/* EMPTY: no courses at all */}
@@ -202,7 +201,7 @@ export default function QualifiedCoursesPage() {
                 onClick={() => handleDeepDive(course)}
               >
                 <Microscope size={15} strokeWidth={2} />
-                Deep dive
+                Course details
               </button>
               <button
                 className={`qcp__action-btn ${

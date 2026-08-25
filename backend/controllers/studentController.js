@@ -10,6 +10,7 @@ const {
 } = require("../services/studentService");
 const { generateToken } = require("../services/accountService");
 
+const { getMyAICourseRecommendations } = require("../services/studentService");
 //get complete personal profile
 exports.getProfile = async (req, res) => {
   try {
@@ -79,7 +80,7 @@ exports.completeProfile = async (req, res) => {
     }
 
     const results = await addStudentCompleteProfile(userId, profile);
-    
+
     if (results?.personalityProfileExist) {
       return res.status(409).json({
         success: true,
@@ -163,6 +164,32 @@ exports.getMyMatchedQualifications = async (req, res) => {
     return res.status(500).json({
       message: "Error fetching qualifications",
       success: false,
+    });
+  }
+};
+
+//get my Ai course recommendations
+exports.getMyAICourseRecommendations = async (req, res) => {
+  try {
+    const userId = req.userId;
+console.log("we are here 1");
+    if (!userId) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Not authenticated" });
+    }
+
+    console.log("we are here 2");
+    const results = await getMyAICourseRecommendations(userId);
+
+    return res.status(200).json({
+      success: true,
+      recommendedCourses: results,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Server error fetching ai recommended courses",
     });
   }
 };

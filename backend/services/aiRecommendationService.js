@@ -71,4 +71,8 @@ async function getOrCreateRecommendations({
   );
 }
 
-module.exports = { getOrCreateRecommendations };
+//get all my ai recommeded courses
+const getAllAiRecommendedCourses = async (userId) => {
+  return await aiRecommendationModel.getAllAiRecommendedCourses(userId);
+};
+module.exports = { getOrCreateRecommendations, getAllAiRecommendedCourses };

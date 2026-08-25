@@ -15,7 +15,12 @@ export async function addCompleteStudentInfo(profileData) {
   return res;
 }
 
-export async function getMyMatches(){
+export async function getMyMatches() {
   const res = await api.get(`/api/student/matched`);
   return res;
+}
+
+export async function getMyAiRecommededCourses() {
+  const res = await api.get("/api/student/courses/ai-recommended");
+  return res?.data;
 }
