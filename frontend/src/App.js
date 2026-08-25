@@ -12,7 +12,7 @@ import Home from "./pages/Home";
 import Features from "./pages/Features";
 
 import AddSubjects from "./components/forms/AddSubjects";
-
+import MyAIRecommendedCourses from "./components/data-display/MyAIRecommendedCourses";
 //subjects
 import ViewSubjectsPage from "./components/data-display/ViewSubjectsPage";
 import StudentDashboard from "./components/data-display/StudentDashboard";
@@ -84,7 +84,10 @@ function App() {
                 <Route path="/features" element={<Features />} />
                 <Route path="/contact-us" element={<Contact />} />
                 {/*LEGAL*/}
-                <Route path="/terms-and-conditions"element={<TermsOfService />}/>
+                <Route
+                  path="/terms-and-conditions"
+                  element={<TermsOfService />}
+                />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/cookie-policy" element={<CookiePolicy />} />
                 <Route path="/popia" element={<Popia />} />
@@ -133,6 +136,10 @@ function App() {
 
                 {/* Logged-in routes (STUDENT) */}
                 <Route element={<RoleRoute allowedRoles={["STUDENT"]} />}>
+                  <Route
+                    path="/student/view/my-recommeded-courses"
+                    element={<MyAIRecommendedCourses />}
+                  />
                   <Route
                     path="/student/add/subjects"
                     element={<AddSubjects />}

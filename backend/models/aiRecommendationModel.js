@@ -1,7 +1,6 @@
 const db = require("../config/db");
 
 module.exports = {
-
   // Insert multiple recommendations
   createRecommendations: async (conn, recommendations) => {
     const sql = `
@@ -10,13 +9,13 @@ module.exports = {
       VALUES ?
     `;
 
-    const values = recommendations.map(r => [
+    const values = recommendations.map((r) => [
       r.id,
       r.userId,
       r.universityAbbrev,
       r.courseCode,
       r.fitScore,
-      r.reason
+      r.reason,
     ]);
 
     return new Promise((resolve, reject) => {
@@ -65,6 +64,39 @@ module.exports = {
         resolve(rows);
       });
     });
-  }
+  },
 
+  // Fetch all ai recommendations
+  getAllAiRecommendedCourses: async (userId) => {
+    const sql = `
+  SELECT 
+    r.course_code AS qualificationCode,
+    q.name AS qualificationName,
+    r.fit_score AS fitScore,
+    r.reason,
+
+    u.name AS university
+
+  FROM ai_course_recommendations r
+
+  JOIN qualification q
+    ON r.course_code = q.code
+
+  JOIN faculty f
+    ON f.faculty_id = q.faculty_id
+
+  JOIN university u
+    ON u.abbreaviation = f.University_Abbreviation
+
+  WHERE r.user_id = ?
+  ORDER BY r.fit_score DESC
+`;
+
+    return new Promise((resolve, reject) => {
+      db.query(sql, [userId], (err, rows) => {
+        if (err) return reject(err);
+        resolve(rows);
+      });
+    });
+  },
 };

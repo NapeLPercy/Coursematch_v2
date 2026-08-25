@@ -7,7 +7,7 @@ const subjectModel = require("../models/Subject");
 const { addUserProfile } = require("./userService");
 const { updateAccountRole, getEmail } = require("./accountService");
 const { parseComparison } = require("../utils/parseComparison");
-
+const { getAllAiRecommendedCourses } = require("./aiRecommendationService");
 const { getDashboardAiData } = require("../models/StudentDashboard");
 const { sendEmail } = require("./sendEmailService");
 
@@ -196,6 +196,11 @@ async function computeStudentDashboard(userId, studentId) {
   };
 }
 
+//get all of my ai recommended courses
+const getMyAICourseRecommendations = async (userId) => {
+  return await getAllAiRecommendedCourses(userId);
+};
+
 module.exports = {
   addStudentProfile,
   addStudentCompleteProfile,
@@ -206,4 +211,5 @@ module.exports = {
   getStudentId,
   getMatchedCourses,
   computeStudentDashboard,
+  getMyAICourseRecommendations,
 };

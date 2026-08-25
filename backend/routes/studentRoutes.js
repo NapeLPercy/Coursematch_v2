@@ -6,8 +6,6 @@ const authenticate = require("../middleware/AuthenticationMiddleware");
 const authorize = require("../middleware/AuthorizationMiddleware");
 const attachProfileId = require("../middleware/profileMiddleware");
 
-
-
 router.post(
   "/profile/basic",
   authenticate,
@@ -48,6 +46,13 @@ router.get(
   authorize("STUDENT"),
   attachProfileId,
   studentDashboardController.computeStudentDashboard,
+);
+
+router.get(
+  "/courses/ai-recommended",
+  authenticate,
+  authorize("STUDENT"),
+  studentController.getMyAICourseRecommendations,
 );
 
 module.exports = router;

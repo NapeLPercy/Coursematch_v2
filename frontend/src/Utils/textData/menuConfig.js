@@ -85,16 +85,20 @@ export const NAV_CONFIG = {
         dropdown: [
           {
             path: "/view-courses",
-            label: "Find Courses",
+            label: "Find Your Courses",
+          },
+          {
+            path: "/student/view/my-recommeded-courses",
+            label: "AI Recommended Courses",
           },
           {
             path: "/student/ai-recommended-courses",
-            label: "Matched Courses",
+            label: "Qualifications Details",
           },
 
           {
             path: "/student/course-comparisons",
-            label: "Compare Courses",
+            label: "Compare Qualifications",
           },
         ],
       },
