@@ -5,15 +5,15 @@ const userModel = require("../models/User");
 
 // Persist generic user data such as fullname, gender
 async function addUserProfile(conn, profileData) {
-  const id = uuidv4();
+  const userId = profileData.userId;
   const genericData = getUserGenericData(profileData);
 
-  await userModel.createUserProfile(conn, {
-    id,
+  const result = await userModel.updateUserProfile(conn, {
+    userId,
     ...genericData,
   });
 
-  return { id };
+  return { result };
 }
 
 //extract user generic data from data collected from each role's welcome form

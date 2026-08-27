@@ -105,6 +105,7 @@ exports.createBasicProfile = async (req, res) => {
     const userId = req.userId;
     const { studentData } = req.body;
 
+    
     if (!studentData) {
       return res
         .status(400)

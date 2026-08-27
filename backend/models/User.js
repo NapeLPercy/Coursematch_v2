@@ -23,12 +23,12 @@ module.exports = {
     });
   },
 
-  //insert user profile
-  createUserProfile: async (conn, { id, fullName, age, gender }) => {
-    const sql = "INSERT INTO user(id, full_name, age, gender) VALUES(?,?,?,?)";
+  //update profile to add remaining info during onboarding(WELCOME FORM)
+  updateUserProfile: async (conn, { userId, fullName, age, gender }) => {
+    const sql = "UPDATE user SET full_name=?, age=?, gender=? WHERE id=?";
 
     return new Promise((resolve, reject) => {
-      conn.query(sql, [id, fullName, age, gender], (err, result) => {
+      conn.query(sql, [fullName, age, gender, userId], (err, result) => {
         if (err) return reject(err);
         resolve(result);
       });
