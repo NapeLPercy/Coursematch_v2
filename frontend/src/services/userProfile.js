@@ -5,6 +5,8 @@ import { api, handleApiError } from "./api";
 export async function saveUserProfile(data) {
   const { role } = data;
 
+  console.log(data,"in the service");
+
   try {
     switch (role) {
       case "STUDENT":
@@ -25,6 +27,7 @@ export async function saveUserProfile(data) {
 }
 //student
 async function studentInitialData(studentData) {
+  console.log(studentData,"in the actual service");
   const res = api.post(`/api/student/profile/basic`, { studentData });
   return res;
 }

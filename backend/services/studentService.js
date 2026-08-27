@@ -25,6 +25,8 @@ async function addStudentProfile(userId, profileData) {
   try {
     await conn.promise().beginTransaction();
 
+    profileData.userId = userId;
+
     const user = await addUserProfile(conn, profileData);
 
     const studentId = uuidv4();

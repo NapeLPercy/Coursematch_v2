@@ -23,6 +23,8 @@ export default function WelcomeOnboarding({ onComplete }) {
   const handleFormSubmit = async (formData) => {
     setLoading(true);
 
+    console.log("form data",formData);
+    
     try {
       const { data } = await saveUserProfile(formData);
 
